@@ -1,5 +1,6 @@
 #include "Board.h"
 #include <iostream>
+#include <windows.h>
 
 #define START_COUNTER int counter = 0
 #define INCREMENT_COUNTER counter++
@@ -94,6 +95,16 @@ bool Board::CheckDiagonalRight(char _color, int _row, int _column)
 	return false;
 }
 
+void Board::SetColor(int _texCol, int _backCol)
+{
+	if ((_texCol % 16) == (_backCol % 16))_texCol++;
+	_texCol %= 16; _backCol %= 16;
+	unsigned short wAttributes = ((unsigned)_backCol << 4) | (unsigned)_texCol;
+	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	//CONSOLE_SCREEN_BUFFER_INFO csbi;
+	SetConsoleTextAttribute(hStdOut, wAttributes);
+}
+
 Board::Board(int _connect, int _rows, int _cols)
 {
 	connect = _connect;
@@ -112,7 +123,7 @@ bool Board::CheckSpaceInColumn(int _column)
 	return (spaces[_column] < rows);
 }
 
-bool Board::Put(char _color, int _column)
+int Board::Put(char _color, int _column)
 {
 	
 	for (int i = rows - 1; i >= 0; i--)
@@ -121,10 +132,10 @@ bool Board::Put(char _color, int _column)
 		{
 			board[i][_column] = _color;
 			spaces[_column]++;
-			return true;
+			return i;
 		}
 	}
-	
+	return -1;
 }
 
 void Board::Print()
@@ -134,17 +145,22 @@ void Board::Print()
 	{
 		for (int j = 0; j < cols; j++)
 		{
-			std::cout << "|" << ((board[i][j] != NULL) ? board[i][j] : '0') << "\t";
+			SetColor(7, 0);
+			std::cout << "| ";
+			int color = (board[i][j] == 'B') ? 3 : 12;
+			SetColor(color,0);
+			std::cout << ((board[i][j] != NULL) ? board[i][j] : ' ') << " ";
 		}
+		SetColor(7, 0);
 		std::cout << "|\n";
 	}
 	std::cout << "***** ***** ***** *****\n";
 }
 
-bool Board::CheckForWin(int _row, int _column)
+bool Board::CheckForWin(char _color, int _row, int _column)
 {
-
-	return false;
+	if (!CheckVertical(_color, _column) && !CheckHorizontal(_color, _row) && !CheckDiagonalLeft(_color, _row, _column) && !CheckDiagonalRight(_color, _row, _column)) return false;
+	return true;
 }
 
 bool Board::IsFull()
@@ -154,6 +170,16 @@ bool Board::IsFull()
 		if (CheckSpaceInColumn(i)) return false;
 	}
 	return true;
+}
+
+int Board::GetColumns()
+{
+	return cols;
+}
+
+int Board::GetRows()
+{
+	return rows;
 }
 
 Board::~Board()
