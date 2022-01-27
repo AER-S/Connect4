@@ -1,6 +1,7 @@
 #include "Board.h"
+#include "GameEngine.h"
 #include <iostream>
-#include <windows.h>
+
 
 #define START_COUNTER int counter = 0
 #define INCREMENT_COUNTER counter++
@@ -95,15 +96,7 @@ bool Board::CheckDiagonalRight(char _color, int _row, int _column)
 	return false;
 }
 
-void Board::SetColor(int _texCol, int _backCol)
-{
-	if ((_texCol % 16) == (_backCol % 16))_texCol++;
-	_texCol %= 16; _backCol %= 16;
-	unsigned short wAttributes = ((unsigned)_backCol << 4) | (unsigned)_texCol;
-	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	//CONSOLE_SCREEN_BUFFER_INFO csbi;
-	SetConsoleTextAttribute(hStdOut, wAttributes);
-}
+
 
 Board::Board(int _connect, int _rows, int _cols)
 {
@@ -145,13 +138,13 @@ void Board::Print()
 	{
 		for (int j = 0; j < cols; j++)
 		{
-			SetColor(7, 0);
+			GameEngine::SetColor(7, 0);
 			std::cout << "| ";
 			int color = (board[i][j] == 'B') ? 3 : 12;
-			SetColor(color,0);
+			GameEngine::SetColor(color,0);
 			std::cout << ((board[i][j] != NULL) ? board[i][j] : ' ') << " ";
 		}
-		SetColor(7, 0);
+		GameEngine::SetColor(7, 0);
 		std::cout << "|\n";
 	}
 	std::cout << "***** ***** ***** *****\n";

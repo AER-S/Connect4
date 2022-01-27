@@ -11,7 +11,7 @@ class Board
 	bool CheckVertical(char _color, int _column);
 	bool CheckDiagonalLeft(char _color, int _row, int _column);
 	bool CheckDiagonalRight(char _color, int _row, int _column);
-	void SetColor(int _texCol, int _backCol);
+	
 
 public:
 	Board(int _connect,int _rows , int _cols);

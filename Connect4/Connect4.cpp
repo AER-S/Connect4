@@ -6,7 +6,7 @@ int main()
 	while (!newGame.GameOver())
 	{
 		newGame.UpdatePlayer();
-		std::cout << newGame.GetPlayer() << " Player Turn:\n";
+		newGame.PlayerTurn();
 		newGame.AddBall();
 		newGame.board->Print();
 	}

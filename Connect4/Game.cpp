@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "GameEngine.h"
 #include <iostream>
 
 
@@ -57,7 +58,10 @@ char Game::Character(int _player)
 
 void Game::PrintWinner()
 {
+	int color = (player == 0) ? 3 : 12;
+	GameEngine::SetColor(color, 0);
 	std::cout << "The winner is " << GetPlayer() << " Player!!" << std::endl;
+	GameEngine::SetColor(7, 0);
 }
 
 const char* Game::GetPlayer()
@@ -72,4 +76,13 @@ const char* Game::GetPlayer()
 bool Game::Won()
 {
 	return won;
+}
+
+void Game::PlayerTurn()
+{
+	int color = (player == 0) ? 3 : 12;
+	GameEngine::SetColor(color, 0);
+	std::cout << GetPlayer();
+	GameEngine::SetColor(7, 0);
+	std::cout << " Player Turn:\n";
 }

@@ -25,5 +25,6 @@ public:
 	void PrintWinner();
 	const char* GetPlayer();
 	bool Won();
+	void PlayerTurn();
 };
 
