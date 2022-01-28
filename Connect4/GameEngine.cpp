@@ -1,5 +1,6 @@
 #include "GameEngine.h"
 #include "Game.h"
+
 #include <iostream>
 #include <ios>
 #include <limits>
@@ -74,10 +75,17 @@ void GameEngine::PlayGame(Game* _game)
 		_game->GameStart();
 		while (!_game->GameOver())
 		{
+			system("cls");
+			Welcome();
+			std::cout << std::endl;
+			Rules();
+			std::cout << std::endl;
+			HowToPlay();
+			std::cout << std::endl;
+			_game->ShowBoard();
 			_game->UpdatePlayer();
 			_game->PlayerTurn();
 			_game->AddBall();
-			_game->ShowBoard();
 		}
 		if (_game->Won()) _game->PrintWinner();
 		else _game->PrintDraw();
