@@ -1,15 +1,15 @@
-#include "Game.h"
+#include "GameEngine.h"
 #include <iostream>
 int main()
 {
-	Game newGame(4);
-	while (!newGame.GameOver())
-	{
-		newGame.UpdatePlayer();
-		newGame.PlayerTurn();
-		newGame.AddBall();
-		newGame.board->Print();
-	}
-	if (newGame.Won()) newGame.PrintWinner();
-	else std::cout << "The game is draw.\n";
+	GameEngine::Welcome();
+	std::cout << std::endl;
+	GameEngine::Rules();
+	std::cout << std::endl;
+	GameEngine::HowToPlay();
+	std::cout << std::endl;
+
+	Game* newGame=nullptr;
+
+	GameEngine::PlayGame(newGame);
 }

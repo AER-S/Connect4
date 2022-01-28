@@ -1,6 +1,7 @@
-#include "Game.h"
+
 #include "GameEngine.h"
 #include <iostream>
+#include <string>
 
 
 
@@ -11,15 +12,29 @@ Game::Game(int _connect, int _rows /*= 6*/, int _cols /*= 7*/)
 	won = false;
 }
 
+void Game::GameStart()
+{
+	std::cout << std::endl << std::endl;
+	std::cout << "   ------------------------------\n";
+	
+	std::cout << "   |\t      GAME STARTS\t|\n";
+	
+	std::cout << "   ------------------------------\n";
+}
+
 int Game::AskForColumn()
 {
-	int input;
+	int input=0;
+	std::string sInput="0";
 	do 
 	{
 		std::cout << "Enter a column :";
-		std::cin >> input;
-		if (input > board->GetColumns() || input < 0) std::cout << "Invalid Input! Retry!\n";
-	} while (input> board->GetColumns() || input<0);
+		std::getline(std::cin, sInput);
+		sInput = "0" + sInput;
+		input = std::stoi(sInput,nullptr,0);
+		
+		if (input > board->GetColumns() || input <= 0) std::cout << "Invalid Input! Retry!\n";
+	} while (input> board->GetColumns() || input<=0);
 	return input;
 }
 
@@ -60,8 +75,23 @@ void Game::PrintWinner()
 {
 	int color = (player == 0) ? 3 : 12;
 	GameEngine::SetColor(color, 0);
-	std::cout << "The winner is " << GetPlayer() << " Player!!" << std::endl;
+	std::cout << "   ------------------------------\n";
+	std::cout << "   |                            |\n";
+	std::cout << "   |\t      GAME OVER\t\t|\n";
+	std::cout << "   |\tThe " << GetPlayer() << " Player Wins!!\t|\n" ;
+	std::cout << "   |                            |\n";
+	std::cout << "   ------------------------------\n";
 	GameEngine::SetColor(7, 0);
+}
+
+void Game::PrintDraw()
+{
+	std::cout << "   ------------------------------\n";
+	std::cout << "   |                            |\n";
+	std::cout << "   |\t      GAME OVER\t\t|\n";
+	std::cout << "   |\tThe game is a draw!!\t|\n";
+	std::cout << "   |                            |\n";
+	std::cout << "   ------------------------------\n";
 }
 
 const char* Game::GetPlayer()
@@ -85,4 +115,14 @@ void Game::PlayerTurn()
 	std::cout << GetPlayer();
 	GameEngine::SetColor(7, 0);
 	std::cout << " Player Turn:\n";
+}
+
+void Game::ShowBoard()
+{
+	board->Print();
+}
+
+Game::~Game()
+{
+	delete board;
 }

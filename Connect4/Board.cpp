@@ -133,9 +133,11 @@ int Board::Put(char _color, int _column)
 
 void Board::Print()
 {
-	std::cout << "***** The Board *****\n";
+	std::cout << std::endl;
+	std::cout << "   ********* The Board *********\n";
 	for (int i = 0; i < rows; i++)
 	{
+		std::cout << "   ";
 		for (int j = 0; j < cols; j++)
 		{
 			GameEngine::SetColor(7, 0);
@@ -147,7 +149,7 @@ void Board::Print()
 		GameEngine::SetColor(7, 0);
 		std::cout << "|\n";
 	}
-	std::cout << "***** ***** ***** *****\n";
+	std::cout << "   *****************************\n\n";
 }
 
 bool Board::CheckForWin(char _color, int _row, int _column)
